@@ -1,5 +1,6 @@
 var db = require('../config');
 var crypto = require('crypto');
+//change to test live remote
 
 var Link = db.Model.extend({
   tableName: 'urls',

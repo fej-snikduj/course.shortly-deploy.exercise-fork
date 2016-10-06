@@ -2,6 +2,24 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    // env : {
+    //   options : {
+    // //Shared Options Hash 
+    //   },
+    //   dev : {
+    //     NODE_ENV : 'development',
+    //     DEST     : 'temp'
+    //   },
+    //   build : {
+    //     NODE_ENV : 'production',
+    //     DEST     : 'dist',
+    //     concat   : {
+    //       PATH     : {
+    //         'value': 'node_modules/.bin',
+    //         'delimiter': ':'
+    //       }
+    //     }
+    // },
     concat: {
       options: {
         separator: ';'
@@ -11,6 +29,11 @@ module.exports = function(grunt) {
         dest: 'public/dist/built.js'
       }
     },
+
+    clean: {
+      build: ["public/dist"],
+    },
+
 
     gitpush: {
       your_target: {
@@ -86,6 +109,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-env');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
@@ -101,13 +126,16 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', ['concat', 'uglify'
+  grunt.registerTask('build', ['clean', 'concat', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
-    if (grunt.option('prod')) {
+    if (grunt.option('env') === 'production') {
+      console.log('correctly sent env to production');
       // add your production server task here
+
     } else {
+      console.log('failed to set env to production');
       grunt.task.run([ 'server-dev' ]);
     }
   });

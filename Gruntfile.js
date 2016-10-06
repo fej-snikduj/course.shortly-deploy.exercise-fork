@@ -5,6 +5,16 @@ module.exports = function(grunt) {
     concat: {
     },
 
+    gitpush: {
+      your_target: {
+        options: {
+          remote: 'live',
+          branch: 'master'
+          // Target-specific options go here. 
+        }
+      }
+    },
+
     mochaTest: {
       test: {
         options: {
@@ -63,6 +73,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-git');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
@@ -71,6 +82,8 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
+
+  grunt.registerTask('push', ['gitpush']);
 
   grunt.registerTask('test', [
     'mochaTest'
@@ -90,6 +103,8 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy', [
     // add your deploy tasks here
   ]);
+//add a grunt 
+  grunt.registerTask('default', []);
 
 
 };
